@@ -15,12 +15,11 @@
       @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
     </style>
 
-
-<style>
-    *{
-          font-family: "Inter", sans-serif;
-    }
-</style>
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
     <title>Document</title>
   </head>
   <body>
@@ -70,11 +69,52 @@
             </ul>
           </div>
           <div class="navbar-end">
-            <a class="btn rounded-3xl bg-yellow-500 border-none text-green-800 font-bold shadow-none">Plant a Tree</a>
+            <a
+              class="btn rounded-3xl bg-yellow-500 border-none text-green-800 font-bold shadow-none"
+              >Plant a Tree</a
+            >
           </div>
         </div>
       </nav>
     </header>
+
+    <main>
+      <!-- banner -->
+      <section class="bg-green-100 mt-2 min-h-[200px] ">
+        <div class="md:flex  justify-between relative z-1">
+
+            <!-- <div class="absolute md:relative md:rotate-0 rotate-90 -left-10 top-3 md:bottom-0 -z-10 ">
+                <img class=" w-55 md:w-full" src="./assets/hero-leaf1.png" alt="">
+            </div> -->
+
+            <div class="absolute md:relative md:rotate-0 rotate-90 -left-10  top-0 -z-10">
+            <img class=" w-55 md:w-full" src="./assets/hero-leaf1.png" alt="">
+          </div>
+
+
+           <div class="flex flex-col justify-center items-center">
+            <h1 class="text-6xl text-center mt-15 lg:text-5xl font-bold">Plant a Tree, Grow a Future</h1>
+            <p class="text-center text-gray-800 my-5">
+              Join our mission to plant 1 million trees and make the Earth
+              greener for future generations.
+            </p>
+            <button
+              class="btn rounded-3xl bg-yellow-500 border-none text-green-800 font-bold shadow-none mb-4"
+            >
+              Plant a Tree
+            </button>
+          </div>
+
+          <div class="absolute md:relative bottom-0 -z-10 right-0">
+            <img class=" w-55 md:w-full" src="./assets/hero-leaf2.png" alt="">
+          </div>
+        </div>
+      </section>
+
+   
+
+
+    </main>
 
     <script src="./script.js"></script>
   </body>
