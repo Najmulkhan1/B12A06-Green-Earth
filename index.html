@@ -154,15 +154,14 @@
                     <h2 class="font-semibold mb-4">Categories</h2>
 
                     <ul id="category">
-                        <li class="px-2 hover:bg-green-600 hover:text-white mb-2 rounded-sm cursor-pointer">All Trees
-                        </li>
+                        <li id="${cat.id}" class="px-2 hover:bg-green-600 hover:text-white mb-2 rounded-sm cursor-pointer">All Tree</li>
 
                     </ul>
 
                 </aside>
 
                 <!-- tree card -->
-                <div id="card-container"  class="col-span-2 md:col-span-8 grid lg:grid-cols-3 gap-3 ">
+                <div id="card-container" class="col-span-2 md:col-span-8 grid lg:grid-cols-3 gap-3 ">
                     <div class="bg-white p-4 space-y-3 rounded-sm">
                         <div class="bg-gray-400 min-h-[130px] rounded-sm">
                             <img src="" alt="">
@@ -183,6 +182,9 @@
                             Add to Cart
                         </button>
                     </div>
+
+
+                   
 
 
                 </div>
@@ -299,6 +301,33 @@
     <footer class="bg-green-900 min-h-[50px] flex justify-center items-center text-white">
         <div class="text-[14px] font-light">© 2025 Green Earth. All Rights Reserved.</div>
     </footer>
+
+
+     <!-- Open the modal using ID.showModal() method -->
+                    <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+                    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+                        <div class="modal-box ">
+                            <div id="details-popUp">
+                                <h1 class="font-bold text-lg ">Banyan Tree</h1>
+                                <div class="bg-gray-400 min-h-[280px] my-4 rounded-sm">
+                                   <img src="" alt=""> 
+                                </div>
+                                <div class="space-y-2">
+                                    <h2> <span class="font-semibold">Category:</span> Shade tree</h2>
+                                <h2> <span class="font-semibold">Price:</span> Shade tree</h2>
+                                <h2> <span class="font-semibold">Description:</span> Shade tree</h2>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="modal-action">
+                                <form method="dialog">
+                                    <!-- if there is a button in form, it will close the modal -->
+                                    <button class="btn">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
 
     <script src="./script.js"></script>
 </body>
