@@ -41,7 +41,7 @@ const showCategory = (categories) => {
 
         li.innerHTML = `
           <li id="${cat.id}" 
-              class="px-2 hover:bg-green-600 hover:text-white mb-2 rounded-sm cursor-pointer ${isDefault}">
+              class="px-2 py-1 hover:bg-green-600 hover:text-white mb-2 rounded-sm cursor-pointer ${isDefault}">
               ${cat.category_name}
           </li>
         `
@@ -107,7 +107,7 @@ const showTreeByCategory = (plants) => {
                 </span>
                 <h2 class="font-semibold"> ৳ <span>${plant.price}</span></h2>
             </div>
-            <button onclick="loadCardItems(${plant.id})" class="btn rounded-3xl bg-green-700 border-none text-white font-normal shadow-none w-full h-8">
+            <button onclick="loadCardItems(${plant.id})" class="btn rounded-3xl bg-green-700 border-none text-white font-normal shadow-none w-full h-8 hover:bg-green-900">
                 Add to Cart
             </button>
         </div>
