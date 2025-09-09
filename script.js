@@ -2,8 +2,10 @@ const categoryContainer = document.getElementById('category')
 const cardContainer = document.getElementById('card-container')
 const detailsContainer = document.getElementById('details-container')
 const detailsBox = document.getElementById("details-popUp")
-
-let modifiedCategories = [] 
+const cartContainer = document.getElementById("cart-container")
+const totalContainer = document.getElementById("cart-total")   
+let modifiedCategories = []
+let cartItems = []
 
 const loadCategory = async () => {
     try {
@@ -14,15 +16,15 @@ const loadCategory = async () => {
         const allPlantF = await fetch(`https://openapi.programming-hero.com/api/plants`)
         const allPlant = await allPlantF.json()
 
-       
+
         modifiedCategories = [
-            { id: 'all-plant', category_name: "All Plant", data: allPlant.plants }, 
+            { id: 'all-plant', category_name: "All Plant", data: allPlant.plants },
             ...categories
         ]
 
         showCategory(modifiedCategories)
 
-        
+
         loadTreesCategory('all-plant')
 
     } catch (error) {
@@ -59,17 +61,28 @@ const showCategory = (categories) => {
     })
 }
 
+const manageSniper = (status) => {
+    if (status === true){
+        document.getElementById('spinner').classList.remove('hidden')
+        document.getElementById('card-container').classList.add('hidden')
+    } else {
+        document.getElementById("card-container").classList.remove('hidden')
+        document.getElementById('spinner').classList.add('hidden')
+    }
+}
+
 const loadTreesCategory = async (categoryId) => {
+    manageSniper(true)
     if (categoryId === 'all-plant') {
-        
+
         const allPlantCat = modifiedCategories.find(c => c.id === 'all-plant')
         showTreeByCategory(allPlantCat.data)
     } else {
         try {
-            
+
             const res = await fetch(`https://openapi.programming-hero.com/api/category/${categoryId}`)
             const data = await res.json()
-            showTreeByCategory(data.plants)  
+            showTreeByCategory(data.plants)
         } catch (error) {
             console.log(error)
         }
@@ -94,48 +107,112 @@ const showTreeByCategory = (plants) => {
                 </span>
                 <h2 class="font-semibold"> ৳ <span>${plant.price}</span></h2>
             </div>
-            <button class="btn rounded-3xl bg-green-700 border-none text-white font-normal shadow-none w-full h-8">
+            <button onclick="loadCardItems(${plant.id})" class="btn rounded-3xl bg-green-700 border-none text-white font-normal shadow-none w-full h-8">
                 Add to Cart
             </button>
         </div>
         `
         cardContainer.append(card)
+
+        manageSniper(false)
     })
 }
 
 const loadPlantDetails = async (id) => {
-    const url = `https://openapi.programming-hero.com/api/plant/${id}`
-    console.log(url);
-    const res =  await fetch(url)
-    const details = await res.json()
-    showPlantDetails(details.plants);
+
+    try {
+        const url = `https://openapi.programming-hero.com/api/plant/${id}`
+
+        const res = await fetch(url)
+        const details = await res.json()
+        console.log(details.plants);
+
+        showPlantDetails(details.plants);
+    } catch (error) {
+        console.log(error);
+
+    }
+
+
+
 }
 
-// {
-//     "id": 29,
-//     "image": "https://i.ibb.co.com/4g4J0Tkj/lotus-min.jpg",
-//     "name": "Lotus",
-//     "description": "A sacred aquatic plant with beautiful pink or white flowers. Symbolizes purity and grows in still, shallow water.",
-//     "category": "Aquatic Plant",
-//     "price": 450
-// }
-
-const showPlantDetails = (plants) => {
-    console.log(plants);
+const showPlantDetails = (plant) => {
+    console.log(plant);
     detailsBox.innerHTML = `
-    <h1 class="font-bold text-lg ">${plants.name}</h1>
+    <h1 class="font-bold text-lg ">${plant.name}</h1>
                                 <div class="overflow-hidden h-[280px] rounded-lg my-4 ">
-                                   <img class="w-full h-full object-cover" src="${plants.image}" alt=""> 
+                                   <img class="w-full h-full object-cover" src="${plant.image}" alt=""> 
                                 </div>
                                 <div class="space-y-2">
-                                    <h2> <span class="font-semibold">Category: </span>${plants.category}</h2>
-                                <h2> <span class="font-semibold">Price: ৳</span>${plants.price}</h2>
-                                <h2> <span class="font-semibold">Description:</span> ${plants.description}</h2>
+                                    <h2> <span class="font-semibold">Category: </span>${plant.category}</h2>
+                                <h2> <span class="font-semibold">Price: ৳</span>${plant.price}</h2>
+                                <h2> <span class="font-semibold">Description:</span> ${plant.description}</h2>
                                 </div>
     `
 
     document.getElementById("my_modal_5").showModal()
     
+
 }
+
+const loadCardItems = async (id) => {
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`
+
+    const res = await fetch(url)
+    const details = await res.json()
+    showCartItems(details.plants)
+}
+
+
+const showCartItems = (cartD) => {
+    cartItems.push(cartD);
+
+    const div = document.createElement('div')
+    div.innerHTML = ` 
+        <div class="bg-green-200 min-h-[20px] p-2 flex justify-between items-center rounded-lg px-3 mb-2">
+            <div>
+                <h2 class="text-[16px]">${cartD.name}</h2>
+                <p class="text-[16px] font-semibold">৳${cartD.price}</p>
+            </div>
+            <button onclick='removeCard(this, ${cartItems.length-1}), alart()'  class='cursor-pointer text-red-600'>
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>`;
+
+    cartContainer.appendChild(div);
+    alert(cartD.name + 'has been added to the cart')
+
+    updateTotalPrice();
+
+    
+}
+
+const removeCard = (btn, index) => {
+    const card = btn.parentElement; 
+    card.remove();
+
+    cartItems.splice(index, 1);
+
+    updateTotalPrice();
+}
+
+
+const updateTotalPrice = () => {
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+    console.log("Total Price:", totalPrice);
+
+  
+    const totalElement = document.getElementById('cart-total');
+    if(totalElement){
+        totalElement.innerHTML = `
+         <h2>Total:</h2>
+                       <p> ৳<span>${totalPrice}</span></p>
+        `;
+    }
+
+    
+}
+
 
 loadCategory()
